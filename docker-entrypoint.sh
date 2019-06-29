@@ -98,17 +98,17 @@ if [ "$1" = '/go-agent/agent.sh' ]; then
 
     if [ ! -e "${AGENT_WORK_DIR}/config/agent-bootstrapper-logback-include.xml" ]; then
       try cp -rfv "/go-agent/config/agent-bootstrapper-logback-include.xml" "${AGENT_WORK_DIR}/config/agent-bootstrapper-logback-include.xml"
-      try chown go:go "${VOLUME_DIR}/config/agent-bootstrapper-logback-include.xml"
+      try chown go:go "${AGENT_WORK_DIR}/config/agent-bootstrapper-logback-include.xml"
     fi
 
     if [ ! -e "${AGENT_WORK_DIR}/config/agent-launcher-logback-include.xml" ]; then
       try cp -rfv "/go-agent/config/agent-launcher-logback-include.xml" "${AGENT_WORK_DIR}/config/agent-launcher-logback-include.xml"
-      try chown go:go "${VOLUME_DIR}/config/agent-launcher-logback-include.xml"
+      try chown go:go "${AGENT_WORK_DIR}/config/agent-launcher-logback-include.xml"
     fi
 
     if [ ! -e "${AGENT_WORK_DIR}/config/agent-logback-include.xml" ]; then
       try cp -rfv "/go-agent/config/agent-logback-include.xml" "${AGENT_WORK_DIR}/config/agent-logback-include.xml"
-      try chown go:go "${VOLUME_DIR}/config/agent-logback-include.xml"
+      try chown go:go "${AGENT_WORK_DIR}/config/agent-logback-include.xml"
     fi
 
     setup_autoregister_properties_file "${AGENT_WORK_DIR}/config/autoregister.properties"
@@ -131,7 +131,8 @@ if [ "$1" = '/go-agent/agent.sh' ]; then
 fi
 
 # these 3 vars are used by `/go-agent/agent.sh`, so we export
-export AGENT_WORK_DIR
+chown -R go:go ${AGENT_WORK_DIR}
+try export AGENT_WORK_DIR
 export GO_AGENT_SYSTEM_PROPERTIES="${GO_AGENT_SYSTEM_PROPERTIES}${GO_AGENT_SYSTEM_PROPERTIES:+ }-Dgo.console.stdout=true"
 export AGENT_BOOTSTRAPPER_JVM_ARGS="${AGENT_BOOTSTRAPPER_JVM_ARGS}${AGENT_BOOTSTRAPPER_JVM_ARGS:+ }-Dgo.console.stdout=true"
 
